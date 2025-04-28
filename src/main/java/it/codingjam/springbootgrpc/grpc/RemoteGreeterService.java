@@ -29,7 +29,12 @@ public class RemoteGreeterService extends GreeterServiceGrpc.GreeterServiceImplB
 
     @Override
     public void streamHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
-        LOGGER.info("Hello streaming {}. On virtual thread? {}", request.getName(), Thread.currentThread().isVirtual());
+        LOGGER.info("Hello streaming {}", request.getName());
+        LOGGER.info("Thread info:\nGroup name: {}\nActive count: {}\nIs virtual: {}",
+                Thread.currentThread().getThreadGroup().getName(),
+                Thread.currentThread().getThreadGroup().activeCount(),
+                Thread.currentThread().isVirtual()
+                );
         Thread.ofVirtual().name("streaming")
                 .start(() -> {
                     int count = 0;
@@ -48,6 +53,6 @@ public class RemoteGreeterService extends GreeterServiceGrpc.GreeterServiceImplB
                     }
                     responseObserver.onCompleted();
                 });
-        LOGGER.info("Executing body on another thread");
+        LOGGER.info("Executing body async");
     }
 }
