@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "it.condingjam.springbootgrpc.proto.orders";
+import "google/protobuf/timestamp.proto";
+
+service OrderService {
+
+  rpc PlaceOrder(OrderRequest) returns (OrderResponse) {}
+}
+
+message OrderRequest {
+  string customer_id = 1;
+  google.protobuf.Timestamp created_at = 2;
+  repeated OrderedArticle articles = 3;
+  PaymentMethod payment_method = 4;
+}
+
+message OrderedArticle {
+  string id = 1;
+  int32 quantity = 2;
+  float unit_price = 3;
+}
+
+message OrderResponse {
+  string id = 1;
+}
+
+enum PaymentMethod {
+  CREDIT_CARD = 0;
+  CASH = 1;
+}
