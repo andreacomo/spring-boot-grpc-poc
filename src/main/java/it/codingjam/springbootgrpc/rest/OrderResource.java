@@ -25,5 +25,5 @@ public class OrderResource {
         return new OrderId(uuid.toString());
     }
 
-    public record OrderId(String value) {}
+    public record OrderId(String id) {}
 }
