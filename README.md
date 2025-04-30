@@ -101,3 +101,30 @@ with average usage of **2.3Gb** (docker stats) -> due to Tomcat?
 
 ## Variants
 * Branch `grpc-on-servlet` tries to use gRPC on Tomcat instead on Netty
+
+**gRPC**
+
+```shell
+  █ TOTAL RESULTS 
+
+    checks_total.......................: 43748   660.59299/s
+    checks_succeeded...................: 100.00% 43748 out of 43748
+    checks_failed......................: 0.00%   0 out of 43748
+
+    ✓ status is OK
+
+    EXECUTION
+    iteration_duration.....................: avg=10.57s min=547.91µs med=10.6s max=36.37s p(90)=16.04s p(95)=17.8s
+    iterations.............................: 44102  665.938376/s
+    vus....................................: 428    min=0        max=8000
+    vus_max................................: 8000   min=4895     max=8000
+
+    NETWORK
+    data_received..........................: 9.7 MB 146 kB/s
+    data_sent..............................: 12 MB  185 kB/s
+
+    GRPC
+    grpc_req_duration......................: avg=7.2s   min=674.08ms med=6.9s  max=23.11s p(90)=12s    p(95)=13.5s
+```
+
+with average usage of **4.2Gb** (docker stats) -> due to Tomcat??!!
