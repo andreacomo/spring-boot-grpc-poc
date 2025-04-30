@@ -6,21 +6,28 @@ client.load(['definitions'], '../../src/main/proto/order.proto');
 
 export const options = {
     stages: [
-        { duration: '10s', target: 3000 },
-        { duration: '50s', target: 3000 },
+        { duration: '10s', target: 8000 },
+        { duration: '50s', target: 8000 },
         { duration: '1s', target: 0 },
     ]
 };
+
+function createArticles() {
+    const articles = [];
+    for(let i = 0; i < 1000; i++) {
+        articles.push({
+            id: "" + i,
+            quantity: 1,
+            unit_price: 10.5
+        });
+    }
+}
 
 const data = {
     customer_id: "AAABBB",
     created_at: "2025-04-28T22:47:00+02:00",
     payment_method: "CREDIT_CARD",
-    articles: [{
-        id: "11",
-        quantity: 1,
-        unit_price: 10.5
-    }]
+    articles: createArticles()
 };
 
 export default () => {
@@ -33,5 +40,5 @@ export default () => {
     });
   
     client.close();
-    sleep(0.5);
+    sleep(1);
 };
