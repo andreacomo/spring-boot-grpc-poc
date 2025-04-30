@@ -103,28 +103,32 @@ with average usage of **2.3Gb** (docker stats) -> due to Tomcat?
 * Branch `grpc-on-servlet` tries to use gRPC on Tomcat instead on Netty
 
 **gRPC**
+Just run with
+```shell
+docker run --cpus=1 -p "8080:8080"  spring-boot-grpc-poc:0.0.1-SNAPSHOT
+```
 
 ```shell
   █ TOTAL RESULTS 
 
-    checks_total.......................: 43748   660.59299/s
-    checks_succeeded...................: 100.00% 43748 out of 43748
-    checks_failed......................: 0.00%   0 out of 43748
+    checks_total.......................: 50689   775.897827/s
+    checks_succeeded...................: 100.00% 50689 out of 50689
+    checks_failed......................: 0.00%   0 out of 50689
 
     ✓ status is OK
 
     EXECUTION
-    iteration_duration.....................: avg=10.57s min=547.91µs med=10.6s max=36.37s p(90)=16.04s p(95)=17.8s
-    iterations.............................: 44102  665.938376/s
-    vus....................................: 428    min=0        max=8000
-    vus_max................................: 8000   min=4895     max=8000
+    iteration_duration.....................: avg=9.21s min=21.48ms  med=9.31s max=41.53s p(90)=12.69s p(95)=13.91s
+    iterations.............................: 50796 777.535678/s
+    vus....................................: 3160  min=0        max=8000
+    vus_max................................: 8000  min=4971     max=8000
 
     NETWORK
-    data_received..........................: 9.7 MB 146 kB/s
-    data_sent..............................: 12 MB  185 kB/s
+    data_received..........................: 11 MB 172 kB/s
+    data_sent..............................: 14 MB 219 kB/s
 
     GRPC
-    grpc_req_duration......................: avg=7.2s   min=674.08ms med=6.9s  max=23.11s p(90)=12s    p(95)=13.5s
+    grpc_req_duration......................: avg=5.31s min=296.43ms med=5.31s max=10.9s  p(90)=7.91s  p(95)=8.78s 
 ```
 
 with average usage of **4.2Gb** (docker stats) -> due to Tomcat??!!
