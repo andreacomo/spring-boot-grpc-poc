@@ -17,8 +17,6 @@ import java.util.concurrent.TimeUnit;
 @GrpcService
 public class RemoteOrderService extends OrderServiceGrpc.OrderServiceImplBase {
 
-    private final ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
-
     private final OrderService orderService;
 
     public RemoteOrderService(OrderService orderService) {
@@ -27,24 +25,16 @@ public class RemoteOrderService extends OrderServiceGrpc.OrderServiceImplBase {
 
     @Override
     public void placeOrder(OrderRequest request, StreamObserver<OrderResponse> responseObserver) {
-        executor.submit(() -> {
-            try {
-                UUID orderId = orderService.createOrder(OrderDTO.from(request));
-                responseObserver.onNext(OrderResponse
-                        .newBuilder()
-                        .setId(orderId.toString())
-                        .build()
-                );
-                responseObserver.onCompleted();
-            } catch (InterruptedException e) {
-                responseObserver.onError(e);
-            }
-        });
-    }
-
-    @PreDestroy
-    void close() throws InterruptedException {
-        executor.shutdown();
-        executor.awaitTermination(10, TimeUnit.SECONDS);
+        try {
+            UUID orderId = orderService.createOrder(OrderDTO.from(request));
+            responseObserver.onNext(OrderResponse
+                    .newBuilder()
+                    .setId(orderId.toString())
+                    .build()
+            );
+            responseObserver.onCompleted();
+        } catch (InterruptedException e) {
+            responseObserver.onError(e);
+        }
     }
 }
