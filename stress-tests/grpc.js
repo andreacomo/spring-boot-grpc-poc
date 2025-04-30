@@ -31,7 +31,7 @@ const data = {
 };
 
 export default () => {
-    client.connect('localhost:9090', { plaintext: true });
+    client.connect('localhost:8080', { plaintext: true });
   
     const response = client.invoke('OrderService/PlaceOrder', data);
   
