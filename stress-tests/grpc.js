@@ -1,5 +1,9 @@
 import { Client, StatusOK } from 'k6/net/grpc';
 import { check, sleep } from 'k6';
+import { textSummary } from 'https://jslib.k6.io/k6-summary/0.1.0/index.js';
+import { htmlReport } from "https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js";
+import { csvSummaryForGrpcReport } from './csv-formatter.js';
+import { forGrpc } from './data-provider.js';
 
 const client = new Client();
 client.load(['definitions'], '../../src/main/proto/order.proto');
@@ -12,23 +16,7 @@ export const options = {
     ]
 };
 
-function createArticles() {
-    const articles = [];
-    for(let i = 0; i < 1000; i++) {
-        articles.push({
-            id: "" + i,
-            quantity: 1,
-            unit_price: 10.5
-        });
-    }
-}
-
-const data = {
-    customer_id: "AAABBB",
-    created_at: "2025-04-28T22:47:00+02:00",
-    payment_method: "CREDIT_CARD",
-    articles: createArticles()
-};
+const data = forGrpc();
 
 export default () => {
     client.connect('localhost:9090', { plaintext: true });
@@ -42,3 +30,13 @@ export default () => {
     client.close();
     sleep(1);
 };
+
+export function handleSummary(data) {
+
+  return {
+    stdout: textSummary(data, { indent: ' ', enableColors: true }),
+    'grpc_result.json': JSON.stringify(data),
+    'grpc_result.csv': csvSummaryForGrpcReport(data),
+    'grpc_result.html': htmlReport(data)
+  };
+}

@@ -11,8 +11,8 @@ public class SpringBootGrpcApplication {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SpringBootGrpcApplication.class);
 
 	public static void main(String[] args) {
-		LOGGER.info("Available processors: {}", Runtime.getRuntime().availableProcessors());
 		SpringApplication.run(SpringBootGrpcApplication.class, args);
+		LOGGER.info("Available processors: {}", Runtime.getRuntime().availableProcessors());
 	}
 
 }
