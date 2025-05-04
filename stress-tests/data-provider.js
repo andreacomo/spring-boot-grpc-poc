@@ -1,39 +1,36 @@
-export function forHttp() {
+export function forHttp(articlesCount) {
     return {
         customerId: "AAABBB",
         createdAt: "2025-04-28T22:47:00+02:00",
         paymentMethod: "CREDIT_CARD",
-        articles: createArticlesForHttp()
+        articles: createArticles(articlesCount, function(i) {
+            return {
+                id: "" + i,
+                quantity: 1,
+                unitPrice: 10.5
+           }
+        })
     };
 }
 
-export function forGrpc() {
+export function forGrpc(articlesCount) {
     return {
        customer_id: "AAABBB",
        created_at: "2025-04-28T22:47:00+02:00",
        payment_method: "CREDIT_CARD",
-       articles: createArticlesForGrpc()
+       articles: createArticles(articlesCount, function(i) {
+            return {
+                id: "" + i,
+                quantity: 1,
+                unit_price: 10.5
+           }
+       })
    };
 }
 
-function createArticlesForHttp() {
+function createArticles(articlesCount, creator) {
     const articles = [];
-    for(let i = 0; i < 1000; i++) {
-        articles.push({
-            id: "" + i,
-            quantity: 1,
-            unitPrice: 10.5
-        });
-    }
-}
-
-function createArticlesForGrpc() {
-    const articles = [];
-    for(let i = 0; i < 1000; i++) {
-        articles.push({
-            id: "" + i,
-            quantity: 1,
-            unit_price: 10.5
-        });
+    for(let i = 0; i < articlesCount; i++) {
+        articles.push(creator(i));
     }
 }

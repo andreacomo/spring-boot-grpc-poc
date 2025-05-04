@@ -7,13 +7,13 @@ import { forHttp } from './data-provider.js';
 
 export const options = {
   stages: [
-    { duration: '10s', target: 8000 },
-    { duration: '50s', target: 8000 },
+    { duration: '10s', target: 7000 },
+    { duration: '50s', target: 7000 },
     { duration: '1s', target: 0 },
   ],
 };
 
-const body = JSON.stringify(forHttp())
+const body = JSON.stringify(forHttp(1000))
 
 export default () => {
   let res = http.post('http://localhost:8080/orders', body, {headers: { 'Content-Type': 'application/json' }});

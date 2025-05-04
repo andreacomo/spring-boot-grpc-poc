@@ -10,13 +10,13 @@ client.load(['definitions'], '../../src/main/proto/order.proto');
 
 export const options = {
     stages: [
-        { duration: '10s', target: 8000 },
-        { duration: '50s', target: 8000 },
+        { duration: '10s', target: 7000 },
+        { duration: '50s', target: 7000 },
         { duration: '1s', target: 0 },
     ]
 };
 
-const data = forGrpc();
+const data = forGrpc(1000);
 
 export default () => {
     client.connect('localhost:9090', { plaintext: true });
