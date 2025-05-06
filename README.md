@@ -39,6 +39,23 @@ Tests executed with
 ```shell
 docker run --cpus=1 -m1.5Gb -p "8080:8080" -p "9090:9090" -e JAVA_OPTS="-XX:MaxDirectMemorySize=100M" -e SPRING_THREADS_VIRTUAL_ENABLED=[true|false] spring-boot-grpc-poc:0.0.1-SNAPSHOT
 ```
+Run with JMX enabled:
+```shell
+docker run --cpus=1 -m1.5Gb -p "8080:8080" -p "9090:9090" -p "9010:9010" \
+-e JAVA_OPTS="-XX:MaxDirectMemorySize=100M \
+  -Dsun.management.jmxremote.level=FINEST \
+  -Dsun.management.jmxremote.handlers=java.util.logging.ConsoleHandler \
+  -Djava.util.logging.ConsoleHandler.level=FINEST \
+  -Dcom.sun.management.jmxremote.local.only=false \
+  -Dcom.sun.management.jmxremote.ssl=false \
+  -Dcom.sun.management.jmxremote.authenticate=false \
+  -Dcom.sun.management.jmxremote.port=9010 \
+  -Dcom.sun.management.jmxremote.rmi.port=9010 \
+  -Djava.rmi.server.hostname=0.0.0.0" \
+-e SPRING_THREADS_VIRTUAL_ENABLED=true \
+spring-boot-grpc-poc:0.0.1-SNAPSHOT
+```
+
 > Please note that:
 > * `-XX:MaxDirectMemorySize` is required by Netty to allocate direct buffer memory (off heap)
 > * `SPRING_THREADS_VIRTUAL_ENABLED` is used to enable/disable virtual threads on Tomcat
